@@ -116,12 +116,21 @@ extend_doctype_class = {
 # ---------------
 # Hook on document methods and events
 
+_patient_history_events = {
+	"on_submit": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.create_medical_record",
+	"on_cancel": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.delete_medical_record",
+	"on_update_after_submit": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.update_medical_record",
+}
+
 doc_events = {
-	"*": {
-		"on_submit": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.create_medical_record",
-		"on_cancel": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.delete_medical_record",
-		"on_update_after_submit": "healthcare.healthcare.doctype.patient_history_settings.patient_history_settings.update_medical_record",
-	},
+	"Patient Encounter": _patient_history_events,
+	"Clinical Procedure": _patient_history_events,
+	"Lab Test": _patient_history_events,
+	"Therapy Session": _patient_history_events,
+	"Vital Signs": _patient_history_events,
+	"Inpatient Medication Order": _patient_history_events,
+	"Observation": _patient_history_events,
+	"Discharge Summary": _patient_history_events,
 	"Sales Invoice": {
 		"on_submit": "healthcare.healthcare.utils.manage_invoice_submit_cancel",
 		"on_cancel": "healthcare.healthcare.utils.manage_invoice_submit_cancel",

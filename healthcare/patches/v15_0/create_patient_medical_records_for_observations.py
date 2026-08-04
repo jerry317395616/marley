@@ -8,7 +8,8 @@ def execute():
 	for obs in observations:
 		obs_doc = frappe.get_doc("Observation", obs)
 
-		subject = frappe.render_template(
+		# The template path is an application-owned constant, not user-controlled input.
+		subject = frappe.render_template(  # nosemgrep: frappe-ssti
 			"healthcare/healthcare/doctype/observation/observation.html", dict(doc=obs_doc)
 		)
 

@@ -43,7 +43,8 @@ def get_vite_assets(entry="src/patient_portal.js"):
 		get_bench_path(), "apps", "healthcare", "healthcare", "public", "frontend", "manifest.json"
 	)
 
-	with open(manifest_path) as f:
+	# manifest_path is assembled entirely from application-owned constants.
+	with open(manifest_path) as f:  # nosemgrep: frappe-security-file-traversal
 		manifest = json.load(f)
 
 	return manifest[entry]

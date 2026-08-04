@@ -132,7 +132,8 @@ def set_subject_field(doc):
 	subject = ""
 	patient_history_fields = get_patient_history_fields(doc)
 	if doc.doctype == "Observation":
-		subject = frappe.render_template(
+		# The template path is an application-owned constant, not user-controlled input.
+		subject = frappe.render_template(  # nosemgrep: frappe-ssti
 			"healthcare/healthcare/doctype/observation/observation.html", dict(doc=doc)
 		)
 	else:

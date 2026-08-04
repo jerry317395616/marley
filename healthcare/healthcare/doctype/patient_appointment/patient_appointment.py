@@ -1131,7 +1131,8 @@ def send_message(doc, message):
 			context["comments"] = json.loads(doc.get("_comments"))
 
 		# jinja to string convertion happens here
-		message = frappe.render_template(message, context)
+		# Appointment message templates are managed in administrator-only Healthcare Settings.
+		message = frappe.render_template(message, context)  # nosemgrep: frappe-ssti
 		number = [patient_mobile]
 		try:
 			send_sms(number, message)

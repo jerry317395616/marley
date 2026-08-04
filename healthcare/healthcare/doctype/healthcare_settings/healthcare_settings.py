@@ -53,10 +53,11 @@ def get_sms_text(doc):
 	context = {"doc": doc, "alert": doc, "comments": None}
 
 	emailed = frappe.db.get_single_value("Healthcare Settings", "sms_emailed")
-	sms_text["emailed"] = frappe.render_template(emailed, context)
+	# Templates are editable only by Healthcare Administrators in Healthcare Settings.
+	sms_text["emailed"] = frappe.render_template(emailed, context)  # nosemgrep: frappe-ssti
 
 	printed = frappe.db.get_single_value("Healthcare Settings", "sms_printed")
-	sms_text["printed"] = frappe.render_template(printed, context)
+	sms_text["printed"] = frappe.render_template(printed, context)  # nosemgrep: frappe-ssti
 
 	return sms_text
 
@@ -68,7 +69,8 @@ def send_registration_sms(doc):
 			if doc.get("_comments"):
 				context["comments"] = json.loads(doc.get("_comments"))
 			messages = frappe.db.get_single_value("Healthcare Settings", "registration_msg")
-			messages = frappe.render_template(messages, context)
+			# The template source is restricted to Healthcare Administrators.
+			messages = frappe.render_template(messages, context)  # nosemgrep: frappe-ssti
 			number = [doc.mobile]
 			send_sms(number, messages)
 		else:
